@@ -1,5 +1,6 @@
 package automationtesting;
 
+import io.cucumber.java.AfterStep;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -16,6 +17,12 @@ public class TestCase1Steps {
 
     private WebDriver driver;
 
+    @AfterStep
+    public void closeFrames() {
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+        js.executeScript("document.querySelectorAll(\"iframe\").forEach((elem)=> { elem.parentNode.removeChild(elem); });");
+        js.executeScript("document.querySelectorAll(\"ins.adsbygoogle\").forEach((elem) => { elem.parentNode.removeChild(elem) });");
+    }
 
     @Given("Open the browser")
     public void openTheBrowser() {
@@ -41,14 +48,11 @@ public class TestCase1Steps {
     @And("Now click on Home menu button")
     public void nowClickOnHomeMenuButton() {
         driver.findElement(By.id("site-logo")).click();
-
+        driver.findElement(By.id("site-logo")).click();
     }
 
     @Then("Test whether the Home page has Three Sliders only")
     public void testWhetherTheHomePageHasThreeSlidersOnly() {
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript("document.querySelectorAll(\"iframe\").forEach((elem)=> { elem.parentNode.removeChild(elem); });");
-        js.executeScript("document.querySelectorAll(\"ins.adsbygoogle\").forEach((elem) => { elem.parentNode.removeChild(elem) });");
     }
 
     @And("The Home page must contains only three sliders")
